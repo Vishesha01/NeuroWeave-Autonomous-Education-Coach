@@ -25,12 +25,13 @@ The platform also provides explainable decision logs, enabling learning decision
 - **Fairness Monitoring** — Tracks fairness-related metrics during learning sessions.
 - **Agent Monitoring** — Provides agent status, action logs, and decision logs.
 - **Persistent Learner Data** — Maintains learner state using SQLite.
+- **RESTful API** — Provides backend endpoints for learner management, quizzes, knowledge maps, and agent monitoring.
 
 ---
 
 ## System Architecture
 
-NeuroWeave follows a multi-agent architecture where a central **Head Agent** coordinates specialized agents responsible for learner analysis, adaptive decisions, fairness and motivation, and content delivery.
+NeuroWeave uses a multi-agent architecture in which a central **Head Agent** coordinates specialized agents.
 
 ```text
                          ┌─────────────────────────┐
@@ -50,17 +51,26 @@ NeuroWeave follows a multi-agent architecture where a central **Head Agent** coo
                                       │
                                       ▼
                          ┌─────────────────────────┐
-                         │  Content Delivery Agent│
+                         │ Content Delivery Agent  │
                          │ Questions & Materials   │
                          └─────────────────────────┘
-Agent Responsibilities
-Agent	Responsibility
-Head Agent	Orchestrates the learning workflow, delegates tasks, and manages sessions
-Learner Modeling Agent	Tracks mastery, retention decay, and learner error patterns
-Adaptive Decision Agent	Adjusts difficulty, re-sequences concepts, and determines interventions
-Fairness & Motivation Agent	Monitors fairness, engagement, and explainability-related information
-Content Delivery Agent	Selects appropriate questions and learning materials
-Project Structure
+```
+
+### Agent Responsibilities
+
+| Agent | Responsibility |
+|---|---|
+| **Head Agent** | Orchestrates the learning workflow, delegates tasks, and manages sessions |
+| **Learner Modeling Agent** | Tracks mastery, retention decay, and learner error patterns |
+| **Adaptive Decision Agent** | Adjusts difficulty, re-sequences concepts, and determines interventions |
+| **Fairness & Motivation Agent** | Monitors fairness, engagement, and explainability-related information |
+| **Content Delivery Agent** | Selects appropriate questions and learning materials |
+
+---
+
+## Project Structure
+
+```text
 NeuroWeave-Autonomous-Education-Coach/
 │
 ├── backend/
@@ -71,72 +81,125 @@ NeuroWeave-Autonomous-Education-Coach/
 │   └── index.html
 │
 └── README.md
-Technology Stack
-Component	Technology
-Backend	Python, FastAPI
-Frontend	HTML, CSS, JavaScript
-Database	SQLite
-Learning Logic	Rule Engine, Lightweight ML Heuristics
-Agent Architecture	Custom Python Multi-Agent Orchestrator
-API	RESTful API
-API Reference
-Method	Endpoint	Description
-GET	/api/health	Check system health
-GET	/api/learner/{id}	Retrieve learner profile
-POST	/api/learner	Create a learner
-GET	/api/dashboard/{id}	Retrieve dashboard data and trigger orchestration
-GET	/api/quiz/{id}/{concept}	Retrieve adaptive quiz questions
-POST	/api/quiz/answer	Submit an answer and update mastery
-GET	/api/knowledge/{id}	Retrieve the learner knowledge map
-GET	/api/agents/status	Retrieve agent status
-GET	/api/agents/logs/{id}	Retrieve agent action logs
-GET	/api/agents/decisions/{id}	Retrieve explainable AI decision logs
-Getting Started
-Prerequisites
-Python 3.x
-pip
-Modern web browser
-Backend Setup
+```
 
-Clone the repository:
+---
 
+## Technology Stack
+
+| Component | Technology |
+|---|---|
+| **Backend** | Python, FastAPI |
+| **Frontend** | HTML, CSS, JavaScript |
+| **Database** | SQLite |
+| **Learning Logic** | Rule Engine, Lightweight ML Heuristics |
+| **Agent Architecture** | Custom Python Multi-Agent Orchestrator |
+| **API** | RESTful API |
+
+---
+
+## API Reference
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/health` | Check system health |
+| `GET` | `/api/learner/{id}` | Retrieve learner profile |
+| `POST` | `/api/learner` | Create a learner |
+| `GET` | `/api/dashboard/{id}` | Retrieve dashboard data and trigger orchestration |
+| `GET` | `/api/quiz/{id}/{concept}` | Retrieve adaptive quiz questions |
+| `POST` | `/api/quiz/answer` | Submit an answer and update mastery |
+| `GET` | `/api/knowledge/{id}` | Retrieve the learner knowledge map |
+| `GET` | `/api/agents/status` | Retrieve agent status |
+| `GET` | `/api/agents/logs/{id}` | Retrieve agent action logs |
+| `GET` | `/api/agents/decisions/{id}` | Retrieve explainable AI decision logs |
+
+---
+
+## Getting Started
+
+### Prerequisites
+
+Before running the project, make sure you have:
+
+- Python 3.x
+- pip
+- A modern web browser
+
+### 1. Clone the Repository
+
+```bash
 git clone https://github.com/Vishesha01/NeuroWeave-Autonomous-Education-Coach.git
-cd NeuroWeave-Autonomous-Education-Coach/backend
+cd NeuroWeave-Autonomous-Education-Coach
+```
 
-Install dependencies:
+### 2. Set Up the Backend
 
+Navigate to the backend directory:
+
+```bash
+cd backend
+```
+
+Install the required dependencies:
+
+```bash
 pip install -r requirements.txt
+```
 
 Start the FastAPI server:
 
+```bash
 uvicorn main:app --reload --port 8000
+```
 
-The API will be available at:
+The backend will be available at:
 
+```text
 http://localhost:8000
+```
 
-Interactive API documentation:
+### 3. Access API Documentation
 
+FastAPI provides interactive API documentation at:
+
+```text
 http://localhost:8000/docs
-Frontend Setup
+```
 
-The frontend does not require a build process.
+---
 
-Open:
+## Frontend Setup
 
+The frontend is implemented using HTML, CSS, and JavaScript and does not require a build process.
+
+From the project root, open:
+
+```text
 frontend/index.html
+```
 
-directly in a browser.
+directly in a web browser.
 
-Alternatively:
+Alternatively, start a local web server:
 
+```bash
 cd frontend
 python -m http.server 3000
+```
 
 Then open:
 
+```text
 http://localhost:3000
-Learning Workflow
+```
+
+---
+
+## Learning Workflow
+
+The system follows an adaptive learning workflow:
+
+```text
 Learner
    │
    ▼
@@ -145,16 +208,16 @@ Learning Request
    ▼
 Head Agent
    │
-   ├──► Learner Modeling
+   ├──► Learner Modeling Agent
    │       └── Mastery + Retention + Error Patterns
    │
-   ├──► Adaptive Decision
-   │       └── Difficulty + Concept Sequence
+   ├──► Adaptive Decision Agent
+   │       └── Difficulty + Concept Sequence + Interventions
    │
-   ├──► Fairness & Motivation
+   ├──► Fairness & Motivation Agent
    │       └── Fairness + Engagement
    │
-   └──► Content Delivery
+   └──► Content Delivery Agent
            └── Questions + Learning Materials
                     │
                     ▼
@@ -162,38 +225,93 @@ Head Agent
                     │
                     ▼
              Decision Logging
-Explainable AI
+```
+
+---
+
+## Explainable AI
 
 NeuroWeave provides transparency into autonomous learning decisions through structured decision logs.
 
 Decision information includes:
 
-Responsible agent
-Action performed
-Decision reasoning
-Confidence information
-Relevant learner context
+- Responsible agent
+- Action performed
+- Decision reasoning
+- Confidence information
+- Relevant learner context
 
-This enables developers and users to understand the reasoning behind adaptive learning decisions.
+These logs help developers and users understand the reasoning behind adaptive learning decisions.
 
-Demo Learner
+---
+
+## Knowledge Gap Detection
+
+The system maintains learner knowledge information across different concepts.
+
+Knowledge-gap detection uses learner performance and retention patterns to identify concepts that may require additional practice or intervention.
+
+This information is used by the adaptive decision process to determine appropriate learning actions.
+
+---
+
+## Adaptive Quiz Engine
+
+The adaptive quiz engine selects questions based on the learner's current mastery level.
+
+The system can:
+
+1. Evaluate the learner's current performance.
+2. Update concept mastery after an answer.
+3. Identify areas that require additional practice.
+4. Adjust future question difficulty.
+5. Support personalized learning progression.
+
+---
+
+## Demo Learner
 
 A pre-seeded learner is available for demonstration and testing.
 
-Field	Value
-Learner	Arjun R.
-Learner ID	learner_001
-Concepts	12
+| Field | Value |
+|---|---|
+| **Learner** | Arjun R. |
+| **Learner ID** | `learner_001` |
+| **Concepts** | 12 |
 
 The demo learner contains concepts with different mastery levels for demonstrating adaptive learning and knowledge-gap detection.
 
-Project Highlights
-Multi-agent system architecture
-Personalized and adaptive learning
-Learner knowledge modeling
-Knowledge-gap detection
-Adaptive quiz generation
-Explainable AI decision tracking
-Fairness monitoring
-RESTful API development
-Persistent learner data management
+---
+
+## Project Highlights
+
+- Multi-agent system architecture
+- Personalized and adaptive learning
+- Learner knowledge modeling
+- Knowledge-gap detection
+- Adaptive quiz generation
+- Explainable AI decision tracking
+- Fairness monitoring
+- RESTful API development
+- Persistent learner data management
+- Lightweight machine learning heuristics
+
+---
+
+## Future Enhancements
+
+Potential improvements include:
+
+- Integration with larger language models
+- Advanced learner behavior prediction
+- More sophisticated knowledge tracing
+- Additional learning content formats
+- Enhanced analytics and visualization
+- User authentication and role-based access
+- Cloud deployment and scalable storage
+
+---
+
+## License
+
+This project is intended for educational and development purposes.
